@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Scam Prevention - Contact</title>
+    <link rel="shortcut icon" href="scam alert.jpg" type="image/x-icon">
+    <link rel="icon" type="image/jpg" href="Images/logo2.jpg">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #2d2a2a;
+            color: white;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            line-height: 1.6;
+        }
+        .navbar {
+            background-color: #891010;
+            overflow: hidden;
+        }
+       .navbar ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+        }
+        .navbar li {
+            float: none;
+        }
+        .navbar li a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 18px 16px;
+            text-decoration: none;
+            font-size: 17px;
+        }
+        .navbar li a:hover {
+            background-color: #555;
+        }
+
+        .contact-hero {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7));
+            height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            position: relative;
+        }
+
+        .contact-hero h1 {
+            font-size: 4.5rem;
+            color: #ff4444;         
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            margin-bottom: 15px;
+        }
+
+        .contact-hero p {
+            font-size: 1.4rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .contact-section {
+            padding: 80px 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .contact-card {
+            background-color: #3a3636;
+            border-radius: 12px;
+            padding: 40px 30px;
+            text-align: center;
+            transition: transform 0.3s ease;
+            border: 1px solid #891010;
+        }
+
+        .contact-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .contact-card .icon {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            color: #ff4444;
+        }
+
+        .contact-card h3 {
+            color: #ff4444;
+            margin-bottom: 15px;
+            font-size: 1.6rem;
+        }
+
+        .contact-card p {
+            color: #ddd;
+            margin-bottom: 20px;
+        }
+
+        .contact-card a {
+            color: #ffaaaa;
+            text-decoration: none;
+        }
+
+        .contact-card a:hover {
+            color: white;
+            text-decoration: underline;
+        }
+
+        footer {
+            background-color: #1f1c1c;
+            color: #aaa;
+            text-align: center;
+            padding: 30px;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+        </ul>
+    </nav>
+
+    <section class="contact-hero">
+        <div>
+            <h1>CONTACT US</h1>
+            <p>For more information hit us up and we'll get you sorted.</p>
+        </div>
+    </section>
+
+    <section class="contact-section">
+        <div class="contact-grid">
+            <div class="contact-card">
+                <div class="icon"><span style= 'font-size:50px;'>&#127979;</span></div>
+                <h3>VISIT US</h3>
+                <p>Come meet the wizards at our headquarters.</p>
+                <p><strong>Scanlan, Kimberley, 8301</strong><br>Kimberely, Nothern Cape, South Africa</p>
+            </div>
+            <div class="contact-card">
+                <div class="icon"><span style= 'font-size:50px;'>&#128222;</span></div>
+                <h3>CALL US</h3>
+                <p>Speak with our scam prevention specialists.</p>
+                <p><a href="tel:+27729065615">+27 72 906 5615</a></p>
+            </div>
+            <div class="contact-card">
+                <div class="icon"><span style= 'font-size:50px;'>&#128386;</span></div>
+                <h3>CONTACT US</h3>
+                <p>Send us a message and we'll respond within 24 hours.</p>
+                <p><a href="mailto:202627350@spu.ac.za">202627350@spu.ac.za</a></p>
+            </div>
+
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 Scam Prevention. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>
