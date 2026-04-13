@@ -1,27 +1,27 @@
+const menuBtn = document.getElementById('menuToggle');
+const mobileMenu = document.getElementById('mobileMenu');
 
-        const menuBtn = document.getElementById('menuToggle');
-        const mobileMenu = document.getElementById('mobileMenu');
+if (menuBtn && mobileMenu) {
+    menuBtn.addEventListener('click', () => {
+        mobileMenu.classList.toggle('open');
+    });
+}
 
-         if (menuBtn && mobileMenu) {
-            menuBtn.addEventListener('click', () => {
-                mobileMenu.classList.toggle('open');
-            });
-        }
-        const checkBtn = document.getElementById('checkBtn');
-        const urlInput = document.getElementById('urlInput');
-        const loading = document.getElementById('loading');
-        const resultsDiv = document.getElementById('results');
-        const RAPIDAPI_KEY = '515c21EME9M9cSy9FvfHvcx2gMPkp1H5Dj4YaKufPRsAyon8Tf';
+const checkBtn = document.getElementById('checkBtn');
+const urlInput = document.getElementById('urlInput');
+const loading = document.getElementById('loading');
+const resultsDiv = document.getElementById('results');
+const RAPIDAPI_KEY = '515c21EME9M9cSy9FvfHvcx2gMPkp1H5Dj4YaKufPRsAyon8Tf';
 
-        if (checkBtn && urlInput && resultsDiv && loading) {
-        checkBtn.addEventListener('click', async () => {
-            const url = urlInput.value.trim();
+if (checkBtn && urlInput && resultsDiv && loading) {
+    checkBtn.addEventListener('click', async () => {
+        const url = urlInput.value.trim();
 
         if (!url) {
             alert("Enter URL");
             return;
         }
-        
+
         if (!url.startsWith('http://') && !url.startsWith('https://')) {
             alert("Enter Full URL starting with http:// or https://");
             return;
@@ -31,67 +31,59 @@
         resultsDiv.innerHTML = '';
 
         try {
-                const response = await fetch('https://phishunt.io/api/v1/domains?limit=500', {
-                    method: 'GET',
-                    headers: {
-                        'x-rapidapi-key': RAPIDAPI_KEY,
-                        'x-rapidapi-host': 'phishunt_io.p.rapidapi.com'
-                    }
-                });
-
-                if (!response.ok) {
-                    throw new Error('HTTP error! Status: ${response.status}');
+            const response = await fetch('https://phishunt.io/api/v1/domains?limit=500', {
+                method: 'GET',
+                headers: {
+                    'x-rapidapi-key': RAPIDAPI_KEY,
+                    'x-rapidapi-host': 'phishunt_io.p.rapidapi.com'
                 }
+            });
 
-                const data = await response.json();
+            if (!response.ok) {
+                throw new Error('HTTP error! Status: ${response.status}');
+            }
 
-                const lowerUrl = url.toLowerCase ();
-                const hostname = new URL(url).hostnametoLowerCase();
+            const data = await response.json();
+            const lowerUrl = url.toLowerCase();
+            const hostname = new URL(url).hostname.toLowerCase();
+
+            let found = false;
+
+            // Loop through API results
+            for (const entry of data) {
+                if (!entry.url) continue;
+
+                const feedUrl = entry.url.toLowerCase();
+                let feedHost = '';
                 
-                let found = false;
-                let matchedEntry = null;
-
-                for (const entry of data) {
-                    if (!entry.url) continue;
-
-                    const feedurl = entry.url.toLowerCase();
-                    const feedHost = new url(feedUrl).hostname.toLowerCase();
-
-                    if (hostname === feedhost || lowerUrl.includes(feedurl) || feedUrl.includes(hostname)) {
-                        found = true;
-                        matchedEntry = entry;
-                        break;
-                    }
+                try {
+                    feedHost = new URL(feedUrl).hostname.toLowerCase();
+                } catch (e) {
+                    // Fallback if entry.url isn't a valid full URL
+                    feedHost = feedUrl;
                 }
 
-                for (let i = 1; i < lines.length; i++) {
-                    const columns = lines[i].split(',');
-                    if (columns.length > 0) {
-                        const suspiciousUrl = columns[0].trim().toLowerCase();
-                        if (suspiciousUrl &&
-                            (lowerUrl.includes(suspiciousUrl) ||
-                             suspiciousUrl.includes(lowerUrl.replace('https://', '').replace('http://', '')))) {
-                            found = true;
-                            break;
-                        }
-                    }
+                if (hostname === feedHost || lowerUrl.includes(feedUrl) || feedUrl.includes(hostname)) {
+                    found = true;
+                    break;
                 }
+            }
 
-                if (found) {
-                    resultsDiv.innerHTML = `
-                        <div class="result-card danger">
-                            <h3> HIGH RISK - MATCH FOUND</h3>
-                            <p>This URL matches known suspicious/phishing entries in the latest database.</p>
-                            <strong>Recommendation:</strong> Do not visit this link. Report it if you received it via email/SMS.
-                        </div>`;
-                } else {
-                    resultsDiv.innerHTML = `
-                        <div class="result-card safe">
-                            <h3> No direct match found</h3>
-                            <p>This URL was not found in the current suspicious feed.</p>
-                            <strong>Note:</strong> Absence of a match does not guarantee safety. Always verify the source.
-                        </div>`;
-                }
+            if (found) {
+                resultsDiv.innerHTML = `
+                    <div class="result-card danger">
+                        <h3> HIGH RISK - MATCH FOUND</h3>
+                        <p>This URL matches known suspicious/phishing entries in the latest database.</p>
+                        <strong>Recommendation:</strong> Do not visit this link. Report it if you received it via email/SMS.
+                    </div>`;
+            } else {
+                resultsDiv.innerHTML = `
+                    <div class="result-card safe">
+                        <h3> No direct match found</h3>
+                        <p>This URL was not found in the current suspicious feed.</p>
+                        <strong>Note:</strong> Absence of a match does not guarantee safety. Always verify the source.
+                    </div>`;
+            }
 
         } catch (error) {
             console.error(error);
@@ -108,4 +100,4 @@
     urlInput.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') checkBtn.click();
     });
-}
+}       
