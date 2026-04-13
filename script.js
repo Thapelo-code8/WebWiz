@@ -31,7 +31,7 @@
         resultsDiv.innerHTML = '';
 
         try {
-                const response = await fetch('https://phishunt_io.p.rapidapi.com/suspicious/feed_csv', {
+                const response = await fetch('https://phishunt.io/api/v1/domains?limit=500', {
                     method: 'GET',
                     headers: {
                         'x-rapidapi-key': RAPIDAPI_KEY,
@@ -40,14 +40,29 @@
                 });
 
                 if (!response.ok) {
-                    throw new Error('Failed to fetch scam database');
+                    throw new Error('HTTP error! Status: ${response.status}');
                 }
 
-                const csvText = await response.text();
-                const lines = csvText.trim().split('\n');
+                const data = await response.json();
+
+                const lowerUrl = url.toLowerCase ();
+                const hostname = new URL(url).hostnametoLowerCase();
                 
                 let found = false;
-                const lowerUrl = url.toLowerCase();
+                let matchedEntry = null;
+
+                for (const entry of data) {
+                    if (!entry.url) continue;
+
+                    const feedurl = entry.url.toLowerCase();
+                    const feedHost = new url(feedUrl).hostname.toLowerCase();
+
+                    if (hostname === feedhost || lowerUrl.includes(feedurl) || feedUrl.includes(hostname)) {
+                        found = true;
+                        matchedEntry = entry;
+                        break;
+                    }
+                }
 
                 for (let i = 1; i < lines.length; i++) {
                     const columns = lines[i].split(',');
@@ -65,7 +80,7 @@
                 if (found) {
                     resultsDiv.innerHTML = `
                         <div class="result-card danger">
-                            <h3> HIGH RISK</h3>
+                            <h3> HIGH RISK - MATCH FOUND</h3>
                             <p>This URL matches known suspicious/phishing entries in the latest database.</p>
                             <strong>Recommendation:</strong> Do not visit this link. Report it if you received it via email/SMS.
                         </div>`;
